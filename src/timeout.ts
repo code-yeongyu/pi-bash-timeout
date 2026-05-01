@@ -36,13 +36,10 @@ export function applyBashTimeout<TInput extends BashToolInputLike>(
 	if (current === undefined || current <= 0) {
 		return { ...input, timeout: defaults.defaultSeconds };
 	}
-	if (current > defaults.maxSeconds) {
-		return { ...input, timeout: defaults.maxSeconds };
-	}
 	return input;
 }
 
 export function buildBashTimeoutPrompt(defaults: BashTimeoutDefaults): string {
 	const minutes = (seconds: number): string => (seconds % 60 === 0 ? `${seconds / 60} min` : `${seconds}s`);
-	return `\n## Bash Tool Timeout Policy\n\nThe \`bash\` tool enforces timeouts even when you omit the \`timeout\` parameter:\n\n- Default timeout: ${defaults.defaultSeconds}s (${minutes(defaults.defaultSeconds)}). Applied automatically when you do not set \`timeout\`.\n- Maximum timeout: ${defaults.maxSeconds}s (${minutes(defaults.maxSeconds)}). Larger values are silently capped to this maximum.\n- For long-running commands (builds, installs, test suites), set an explicit \`timeout\` that fits the workload. Do not assume commands run forever.\n- For commands that legitimately need to run beyond the maximum, run them in the background via tmux or a similar mechanism instead of relying on bash timeout.\n`;
+	return `\n## Bash Tool Timeout Policy\n\nThe \`bash\` tool enforces timeouts even when you omit the \`timeout\` parameter:\n\n- Default timeout: ${defaults.defaultSeconds}s (${minutes(defaults.defaultSeconds)}). Applied automatically when you do not set \`timeout\`.\n- Recommended maximum timeout: ${defaults.maxSeconds}s (${minutes(defaults.maxSeconds)}). Explicit \`timeout\` values are preserved because different hosts may use different timeout units.\n- For long-running commands (builds, installs, test suites), set an explicit \`timeout\` that fits the workload. Do not assume commands run forever.\n- For commands that legitimately need to run beyond the recommended maximum, run them in the background via tmux or a similar mechanism instead of relying on bash timeout.\n`;
 }

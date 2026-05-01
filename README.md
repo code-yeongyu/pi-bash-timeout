@@ -4,13 +4,13 @@ Bash timeout policy extension for the [pi coding agent](https://github.com/badlo
 
 ## Behavior
 
-The extension does not register a new tool. It intercepts the existing `bash` tool through pi's `tool_call` event and normalizes the `timeout` parameter before the command runs.
+The extension does not register a new tool. It intercepts the existing `bash` tool through pi's `tool_call` event and injects a default `timeout` parameter before the command runs.
 
 | Case | Result |
 |------|--------|
 | `timeout` omitted | injects default timeout (`120`) |
 | `timeout <= 0` | treats as missing and injects default |
-| `timeout` above max | caps to max (`600`) |
+| `timeout` above max | preserved as supplied |
 | `timeout` in range | preserves user value |
 
 It also appends a system-prompt section explaining the timeout policy so the model knows to set explicit timeouts for long-running commands.
@@ -20,7 +20,7 @@ It also appends a system-prompt section explaining the timeout policy so the mod
 | Env var | Default | Description |
 |---------|---------|-------------|
 | `PI_BASH_DEFAULT_TIMEOUT_SECONDS` | `120` | Timeout injected when the model omits `timeout`. Must be a positive integer. |
-| `PI_BASH_MAX_TIMEOUT_SECONDS` | `600` | Maximum allowed timeout. Must be a positive integer. If lower than default, it is raised to the default. |
+| `PI_BASH_MAX_TIMEOUT_SECONDS` | `600` | Recommended maximum shown in prompt guidance. Must be a positive integer. If lower than default, it is raised to the default. Explicit timeout values are preserved. |
 
 ## Installation
 

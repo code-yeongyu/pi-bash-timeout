@@ -1,0 +1,3 @@
+pi-bash-timeout
+
+Portions derived from bash-timeout builtin extension logic in code-yeongyu/senpi-mono, itself based on badlogic/pi-mono's public extension API.

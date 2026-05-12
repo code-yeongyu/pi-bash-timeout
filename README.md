@@ -56,3 +56,9 @@ Ported from `packages/coding-agent/src/core/extensions/builtin/bash-timeout.ts` 
 ## License
 
 [MIT](LICENSE).
+
+## Related
+
+- [senpi](https://github.com/code-yeongyu/senpi) — the fork/runtime these extensions are extracted from.
+- [Ultraworkers Discord](https://discord.gg/PUwSMR9XNk) — community link from the senpi README.
+- [Dori](https://sisyphuslabs.ai) — the product powered by senpi under the hood.

@@ -83,7 +83,7 @@ describe("bashTimeoutExtension", () => {
 		expect(event.input).toEqual({ command: "unused" });
 	});
 
-	it("#given bash tool call above max #when handler runs #then caps timeout", async () => {
+	it("#given bash tool call with explicit timeout above max #when handler runs #then preserves explicit timeout", async () => {
 		// given
 		const captured: CapturedHandlers = {};
 		bashTimeoutExtension(createFakePi(captured));
@@ -93,8 +93,8 @@ describe("bashTimeoutExtension", () => {
 		// when
 		await captured.toolCall(event);
 
-		// then
-		expect(event.input).toEqual({ command: "sleep 9999", timeout: 600 });
+		// then: explicit timeout values are preserved because different hosts use different timeout units
+		expect(event.input).toEqual({ command: "sleep 9999", timeout: 9999 });
 	});
 
 	it("#given env overrides #when factory registers handler #then uses env default", async () => {

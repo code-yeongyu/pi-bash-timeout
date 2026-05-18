@@ -30,16 +30,27 @@ function createFakePi(captured: CapturedHandlers): ExtensionAPI {
 }
 
 function withEnv<TValue>(env: Record<string, string | undefined>, run: () => TValue): TValue {
-	const previousDefault = process.env.PI_BASH_DEFAULT_TIMEOUT_SECONDS;
-	const previousMax = process.env.PI_BASH_MAX_TIMEOUT_SECONDS;
-	process.env.PI_BASH_DEFAULT_TIMEOUT_SECONDS = env.PI_BASH_DEFAULT_TIMEOUT_SECONDS;
-	process.env.PI_BASH_MAX_TIMEOUT_SECONDS = env.PI_BASH_MAX_TIMEOUT_SECONDS;
+	const previousDefault = process.env["PI_BASH_DEFAULT_TIMEOUT_SECONDS"];
+	const previousMax = process.env["PI_BASH_MAX_TIMEOUT_SECONDS"];
+	setEnv("PI_BASH_DEFAULT_TIMEOUT_SECONDS", env["PI_BASH_DEFAULT_TIMEOUT_SECONDS"]);
+	setEnv("PI_BASH_MAX_TIMEOUT_SECONDS", env["PI_BASH_MAX_TIMEOUT_SECONDS"]);
 	try {
 		return run();
 	} finally {
-		process.env.PI_BASH_DEFAULT_TIMEOUT_SECONDS = previousDefault;
-		process.env.PI_BASH_MAX_TIMEOUT_SECONDS = previousMax;
+		setEnv("PI_BASH_DEFAULT_TIMEOUT_SECONDS", previousDefault);
+		setEnv("PI_BASH_MAX_TIMEOUT_SECONDS", previousMax);
 	}
+}
+
+function setEnv(
+	name: "PI_BASH_DEFAULT_TIMEOUT_SECONDS" | "PI_BASH_MAX_TIMEOUT_SECONDS",
+	value: string | undefined,
+): void {
+	if (value === undefined) {
+		delete process.env[name];
+		return;
+	}
+	process.env[name] = value;
 }
 
 describe("bashTimeoutExtension", () => {

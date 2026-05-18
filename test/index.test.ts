@@ -30,7 +30,7 @@ describe("bashTimeoutExtension", () => {
 		const input: BashToolInputLike = { command: "echo hi" };
 
 		// when
-		await handlers.tool_call?.[0]?.({ toolName: "bash", input });
+		await handlers["tool_call"]?.[0]?.({ toolName: "bash", input });
 
 		// then
 		expect(input.timeout).toBe(120);
@@ -43,7 +43,7 @@ describe("bashTimeoutExtension", () => {
 		const input: BashToolInputLike = { command: "sleep 30", timeout: 30_000 };
 
 		// when
-		await handlers.tool_call?.[0]?.({ toolName: "bash", input });
+		await handlers["tool_call"]?.[0]?.({ toolName: "bash", input });
 
 		// then
 		expect(input.timeout).toBe(30_000);
@@ -55,7 +55,7 @@ describe("bashTimeoutExtension", () => {
 		bashTimeoutExtension(api as never);
 
 		// when
-		const result = await handlers.before_agent_start?.[0]?.({ systemPrompt: "Base" });
+		const result = await handlers["before_agent_start"]?.[0]?.({ systemPrompt: "Base" });
 
 		// then
 		expect(result).toEqual({

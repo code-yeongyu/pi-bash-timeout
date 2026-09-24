@@ -12,10 +12,13 @@ Conventions for human contributors and AI agents working on this repository.
 
 ## Commands
 
-- `npm install` — install dependencies.
-- `npm test` — run vitest once.
-- `npm run typecheck` — strict TypeScript check.
-- `npm run check` — type check + biome.
+Primary toolchain is Bun 1.4.2. npm remains supported for consumers that install with `npm ci`.
+
+- `bun install` — install dependencies (creates/uses `bun.lock`).
+- `npm ci` — consumer install from `package-lock.json`.
+- `bun run test` / `npm test` — run vitest once.
+- `bun run typecheck` — strict TypeScript check (`tsgo`).
+- `bun run check` — type check + biome.
 - `pi -e ./src/index.ts` — load the extension into a local pi session for manual smoke testing.
 
 ## Constraints
@@ -23,7 +26,7 @@ Conventions for human contributors and AI agents working on this repository.
 - No Bun APIs. Runtime is Node only.
 - This extension does not register a new tool. It intercepts the host `bash` tool via `tool_call` and appends timeout policy via `before_agent_start`.
 - Keep env var names compatible with senpi-mono: `PI_BASH_DEFAULT_TIMEOUT_SECONDS` and `PI_BASH_MAX_TIMEOUT_SECONDS`.
-- No dependency on pi-coding-agent internal modules outside the documented public extension API in `@mariozechner/pi-coding-agent`.
+- No dependency on pi-coding-agent internal modules outside the documented public extension API in `@earendil-works/pi-coding-agent`.
 
 ## Don'ts
 

@@ -12,7 +12,7 @@ Conventions for human contributors and AI agents working on this repository.
 
 ## Commands
 
-Primary toolchain is Bun 1.4.2. npm remains supported for consumers that install with `npm ci`.
+Primary toolchain is Bun 1.4.4. npm remains supported for consumers that install with `npm ci`.
 
 - `bun install` — install dependencies (creates/uses `bun.lock`).
 - `npm ci` — consumer install from `package-lock.json`.
